@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alexi Voss — Supercar Journalist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0c;
+    --panel: #14151a;
+    --line: #2a2b32;
+    --titanium: #c8c6be;
+    --titanium-dim: #86847c;
+    --amber: #e8a33d;
+    --redline: #b8332f;
+    --paper: #f2f0ea;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .display {
+    font-family: 'Bebas Neue', 'Arial Narrow', sans-serif;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 28px;
+    background: rgba(10,10,12,0.9); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .mark { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em; }
+  nav .mark span { color: var(--amber); }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a { color: var(--titanium); text-decoration: none; font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
+  nav a:hover, nav a:focus-visible { color: var(--paper); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 90px 28px 70px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::before {
+    content: "";
+    position: absolute; top: 0; right: -10%; width: 60%; height: 100%;
+    background: linear-gradient(115deg, transparent 48%, var(--panel) 48.5%, var(--panel) 51%, transparent 51.5%);
+    opacity: 0.7;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+  .hero .eyebrow { color: var(--amber); font-size: 0.85rem; font-weight: 600; margin-bottom: 14px; }
+  .hero h1 {
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    text-transform: uppercase;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero p.tag {
+    max-width: 460px; margin-top: 18px; color: var(--titanium);
+    font-size: 1.05rem;
+  }
+  .hero .cta-row { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 13px 26px; font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; border-radius: 2px; transition: transform 0.15s, background 0.2s;
+  }
+  .btn-primary { background: var(--amber); color: var(--ink); }
+  .btn-primary:hover { background: #f2b859; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--paper); }
+  .btn-ghost:hover { border-color: var(--titanium); transform: translateY(-1px); }
+
+  /* STATS STRIP */
+  .stats {
+    border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .stat {
+    padding: 26px 20px; text-align: center; border-left: 1px solid var(--line);
+  }
+  .stat:first-child { border-left: none; }
+  .stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--amber); }
+  .stat .lbl { font-size: 0.78rem; color: var(--titanium-dim); margin-top: 2px; }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: none; }
+  }
+
+  section { padding: 70px 0; border-bottom: 1px solid var(--line); }
+  h2.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-sub { color: var(--titanium-dim); max-width: 520px; margin-bottom: 44px; font-size: 0.98rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 50px; align-items: start; }
+  .about-grid .figure {
+    aspect-ratio: 3/4; background: var(--panel);
+    border: 1px solid var(--line);
+    position: relative; overflow: hidden;
+  }
+  .about-grid .figure::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(135deg, transparent 0 18px, rgba(232,163,61,0.06) 18px 19px);
+  }
+  .about-grid p { color: var(--titanium); margin-bottom: 16px; max-width: 60ch; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } .about-grid .figure { max-width: 260px; } }
+
+  /* GARAGE */
+  .garage-list { display: flex; flex-direction: column; }
+  .garage-row {
+    display: grid; grid-template-columns: 90px 1.4fr 1fr auto; gap: 24px; align-items: center;
+    padding: 22px 0; border-top: 1px solid var(--line);
+  }
+  .garage-row:last-child { border-bottom: 1px solid var(--line); }
+  .garage-row .rank { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--line); }
+  .garage-row .name { font-weight: 600; font-size: 1.1rem; }
+  .garage-row .make { color: var(--titanium-dim); font-size: 0.88rem; margin-top: 2px; }
+  .garage-row .spec { color: var(--amber); font-size: 0.9rem; text-align: right; font-variant-numeric: tabular-nums; }
+  .garage-row .power { color: var(--titanium); font-size: 0.85rem; text-align: right; }
+  @media (max-width: 640px) {
+    .garage-row { grid-template-columns: 50px 1fr; grid-template-areas: "rank name" "rank spec"; row-gap: 6px; }
+    .garage-row .name { grid-area: name; }
+    .garage-row .spec, .garage-row .power { grid-area: spec; text-align: left; }
+    .garage-row .power { display: none; }
+  }
+
+  /* FEATURED */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--line); }
+  .feature-card { background: var(--ink); padding: 28px 24px; min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; }
+  .feature-card .kicker { font-size: 0.75rem; color: var(--amber); font-weight: 600; }
+  .feature-card h3 { font-size: 1.15rem; margin-top: 10px; line-height: 1.3; }
+  .feature-card .meta { color: var(--titanium-dim); font-size: 0.82rem; margin-top: 16px; }
+  @media (max-width: 760px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  /* CONTACT */
+  .contact { text-align: left; }
+  .contact h2.section-title { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+  .contact-links { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 30px; }
+  .contact-links a { color: var(--paper); text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--titanium-dim); padding-bottom: 2px; }
+  .contact-links a:hover { border-color: var(--amber); color: var(--amber); }
+
+  footer { padding: 30px 28px; text-align: center; color: var(--titanium-dim); font-size: 0.82rem; }
+
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="mark">ALEXI<span>VOSS</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#garage">Garage</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Automotive journalist · Track driver · Collector</div>
+    <h1 class="display">Life at <em>redline.</em></h1>
+    <p class="tag">I test, drive, and write about the world's fastest production cars — from factory-floor debuts to the last apex before the tunnel.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#features">Read the latest</a>
+      <a class="btn btn-ghost" href="#contact">Work with me</a>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="num display">212</div><div class="lbl">Cars driven</div></div>
+  <div class="stat"><div class="num display">2.4s</div><div class="lbl">Fastest 0–60 logged</div></div>
+  <div class="stat"><div class="num display">18</div><div class="lbl">Circuits raced</div></div>
+  <div class="stat"><div class="num display">9</div><div class="lbl">Years on the beat</div></div>
+</div>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="figure" role="img" aria-label="Portrait placeholder"></div>
+    <div>
+      <h2 class="section-title">About</h2>
+      <p>I started reviewing cars from the cheap seats at club track days, borrowing seat time wherever I could get it. A decade later I've driven everything from a stripped-down Cup car to a one-off hypercar prototype, and I still take notes the same way — by hand, in the paddock, engine still ticking.</p>
+      <p>My work sits at the intersection of engineering and feel: how a car is built, and what it actually does to your pulse when the throttle opens. No sponsor cars get an easy pass, and no number gets printed without me having felt it first.</p>
+      <p>Based between Los Angeles and Modena. Available for reviews, brand collaborations, and track-day coaching.</p>
+    </div>
+  </div>
+</section>
+
+<section id="garage">
+  <div class="wrap">
+    <h2 class="section-title">The Garage</h2>
+    <p class="section-sub">Current fleet, kept exactly as track-ready as they look.</p>
+    <div class="garage-list">
+      <div class="garage-row">
+        <div class="rank display">01</div>
+        <div><div class="name">911 GT3 RS</div><div class="make">Porsche · 2023</div></div>
+        <div class="spec">3.2s</div>
+        <div class="power">525 hp</div>
+      </div>
+      <div class="garage-row">
+        <div class="rank display">02</div>
+        <div><div class="name">296 GTB</div><div class="make">Ferrari · 2022</div></div>
+        <div class="spec">2.9s</div>
+        <div class="power">819 hp</div>
+      </div>
+      <div class="garage-row">
+        <div class="rank display">03</div>
+        <div><div class="name">Huracán Tecnica</div><div class="make">Lamborghini · 2023</div></div>
+        <div class="spec">3.2s</div>
+        <div class="power">631 hp</div>
+      </div>
+      <div class="garage-row">
+        <div class="rank display">04</div>
+        <div><div class="name">Emira V6</div><div class="make">Lotus · 2024</div></div>
+        <div class="spec">4.2s</div>
+        <div class="power">400 hp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2 class="section-title">Latest Features</h2>
+    <p class="section-sub">Reviews, first drives, and long-form pieces from the paddock.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="kicker">First Drive</div>
+      <h3>Inside the last naturally-aspirated V12 Ferrari will ever build</h3>
+      <div class="meta">12 min read</div>
+    </div>
+    <div class="feature-card">
+      <div class="kicker">Track Test</div>
+      <h3>Six laps at Laguna Seca in a car worth more than my house</h3>
+      <div class="meta">8 min read</div>
+    </div>
+    <div class="feature-card">
+      <div class="kicker">Long Read</div>
+      <h3>What hypercar hybrid systems actually change about how a car drives</h3>
+      <div class="meta">15 min read</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <h2 class="section-title display">Let's talk cars.</h2>
+    <p class="section-sub">Press access, collaborations, and coaching inquiries welcome.</p>
+    <div class="contact-links">
+      <a href="mailto:hello@alexivoss.com">hello@alexivoss.com</a>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Alexi Voss. All redlines respected.</footer>
+
+</body>
+</html>

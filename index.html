@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Candy Crush</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Animated Floating Candy Bubbles -->
+    <div class="bg-decorations">
+        <div class="candy-bubble" style="width: 80px; height: 80px; left: 10%; animation-delay: 0s;"></div>
+        <div class="candy-bubble" style="width: 120px; height: 120px; left: 25%; animation-delay: 4s;"></div>
+        <div class="candy-bubble" style="width: 60px; height: 60px; left: 70%; animation-delay: 2s;"></div>
+        <div class="candy-bubble" style="width: 100px; height: 100px; left: 85%; animation-delay: 7s;"></div>
+        <div class="candy-bubble" style="width: 50px; height: 50px; left: 45%; animation-delay: 9s;"></div>
+    </div>
+
+    <!-- Main Game Wrapper -->
+    <div class="game-wrapper">
+        <!-- Top Navigation / Title -->
+        <header>
+            <h1 class="logo-title">🍬 Candy Crush</h1>
+            <div class="header-controls">
+                <button id="btn-mute" class="btn-icon" title="Toggle Sound">🔊</button>
+                <button id="btn-restart" class="btn-icon" title="Restart Game">🔄</button>
+                <button id="btn-help" class="btn-icon" title="How to Play">❓</button>
+            </div>
+        </header>
+
+        <!-- Stats & Star Meter Dashboard -->
+        <div class="dashboard">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="stat-label">Target</span>
+                    <span id="target-val" class="stat-value">3000</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Score</span>
+                    <span id="score-val" class="stat-value">0</span>
+                </div>
+                <div id="moves-card" class="stat-card moves-card">
+                    <span class="stat-label">Moves</span>
+                    <span id="moves-val" class="stat-value">25</span>
+                </div>
+            </div>
+
+            <!-- Star Progress Bar -->
+            <div class="star-progress-container">
+                <div class="progress-track">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="stars-track">
+                    <span id="star-1" class="star-icon">⭐</span>
+                    <span id="star-2" class="star-icon">⭐</span>
+                    <span id="star-3" class="star-icon">⭐</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Board Area -->
+        <div class="board-container">
+            <canvas id="fx-canvas"></canvas>
+            <div id="floating-text-container"></div>
+            <div id="grid" class="grid"></div>
+        </div>
+    </div>
+
+    <!-- How to Play / Guide Modal -->
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 class="modal-title">How To Play</h2>
+            <div class="guide-list">
+                <div class="guide-item">
+                    <div class="guide-icon">👉</div>
+                    <div><strong>Swap Candies:</strong> Click or swipe 2 adjacent candies to match 3 or more of the same color.</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">✨</div>
+                    <div><strong>Striped Candy (Match 4):</strong> Clears an entire row or column when detonated!</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">💥</div>
+                    <div><strong>Wrapped Candy (T or L match):</strong> Explodes a 3x3 square zone!</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">🌈</div>
+                    <div><strong>Color Bomb (Match 5):</strong> Swap with any candy to clear all candies of that color!</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon">⚡</div>
+                    <div><strong>Special Combos:</strong> Swap two special candies together for massive board-clearing blasts!</div>
+                </div>
+            </div>
+            <button id="close-help-btn" class="modal-btn">Got It!</button>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 class="modal-title" style="background: linear-gradient(180deg, #ff6b81, #ee5253); -webkit-background-clip: text;">Out of Moves!</h2>
+            <p style="color: #c8d6e5; margin-top: 4px;">You didn't reach the target score this time.</p>
+            <div class="modal-score-box">
+                <div class="modal-score-label">Final Score</div>
+                <div id="gameover-score" class="modal-score-num">0</div>
+            </div>
+            <button id="gameover-replay-btn" class="modal-btn">Try Again 🔄</button>
+        </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 class="modal-title">Sugar Rush!</h2>
+            <p style="color: #f1f2f6; margin-top: 4px;">Target achieved! Spectacular job!</p>
+            <div id="victory-stars" class="modal-stars">
+                <span class="star earned">⭐</span>
+                <span class="star earned">⭐</span>
+                <span class="star">⭐</span>
+            </div>
+            <div class="modal-score-box">
+                <div class="modal-score-label">Final Score</div>
+                <div id="victory-score" class="modal-score-num">0</div>
+            </div>
+            <button id="victory-replay-btn" class="modal-btn">Play Again 🎉</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="audio.js"></script>
+    <script src="board.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
